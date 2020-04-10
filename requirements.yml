@@ -1,0 +1,7 @@
+---
+- name: geerlingguy.docker
+  version: 2.8.1
+- name: geerlingguy.kubernetes
+  version: 4.1.0
+- name: geerlingguy.swap
+  version: 1.0.1

@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: true
+  vars:
+    kubernetes_allow_pods_on_master: true
+    kubernetes_web_ui_manifest_file: https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.3/aio/deploy/recommended.yaml
+  roles:
+    - name: geerlingguy.swap
+      swap_file_state: absent
+    - geerlingguy.docker
+    - geerlingguy.kubernetes
+    - kube-dashboard
+  tasks:
+    - name: Fetch kubeconfig to host machine
+      fetch:
+        src: /etc/kubernetes/admin.conf
+        flat: yes
+        # Change to ~/.kube/config to override default kubeconfig
+        dest: ~/.vmkube/config

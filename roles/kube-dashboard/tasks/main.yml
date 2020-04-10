@@ -1,0 +1,40 @@
+---
+- name: Install python requirements for k8s module
+  pip:
+    name:
+      - openshift
+      - requests
+    state: present
+
+- name: Update Web Dashboard
+  k8s:
+    definition: '{{ item }}'
+  with_items: '{{ lookup("url", "{{ kubernetes_web_ui_manifest_file }}", split_lines=False) | from_yaml_all | list }}'
+  when: kubernetes_enable_web_ui | bool and item is not none
+
+- name: Create Dashboard ServiceAccount
+  when: kubernetes_enable_web_ui | bool
+  k8s:
+    definition:
+      apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: admin-user
+        namespace: kubernetes-dashboard
+
+- name: Create Dashboard ClusterRoleBinding
+  when: kubernetes_enable_web_ui | bool
+  k8s:
+    definition:
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      metadata:
+        name: admin-user
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: cluster-admin
+      subjects:
+        - kind: ServiceAccount
+          name: admin-user
+          namespace: kubernetes-dashboard

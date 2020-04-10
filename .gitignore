@@ -1,0 +1,7 @@
+.idea/*
+.virtualenv/
+.vagrant/
+.shared/
+roles/geerlingguy.*
+playbook.retry
+*.log
