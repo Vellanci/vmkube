@@ -1,0 +1,19 @@
+---
+- name: Add required modules
+  modprobe:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - br_netfilter
+    - ip_tables
+    - overlay
+
+- name: Enable sysctl opts
+  sysctl:
+    name: "{{item}}"
+    value: "1"
+    sysctl_file: /etc/sysctl.d/99-kubernetes-cri.conf
+  with_items:
+    - net.bridge.bridge-nf-call-iptables
+    - net.ipv4.ip_forward
+    - net.bridge.bridge-nf-call-ip6tables
