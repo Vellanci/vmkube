@@ -25,7 +25,11 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "vmkube"
   config.vm.box = "centos/8"
   config.vm.network "private_network", type: "dhcp"
-  config.vm.provision "shell", :inline => "sudo yum install python3 -y"
+  config.vm.provision "shell", :inline => "
+    sudo yum install python3 cloud-utils-growpart -y
+    sudo growpart /dev/vda 1
+    sudo xfs_growfs -d /
+  "
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbook.yml"
     ansible.galaxy_role_file = "requirements.yml"
