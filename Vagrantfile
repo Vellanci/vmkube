@@ -1,7 +1,7 @@
 MEMORY = 24000
 # May be more than available on the host PC since libvirt is QEMU based hence is able to emulate cores
-CPUS = 16
-STORAGE = 60
+CPUS = 8
+STORAGE = 100
 
 LIBVIRT_HOST = ENV["LIBVIRT_HOST"]
 LIBVIRT_USER = ENV["LIBVIRT_USER"]
