@@ -1,12 +1,12 @@
 # Installing Kubernetes on VM
 
-###Prerequisites
+### Prerequisites
 * Ansible 2.7+
 * Vagrant
 * QEMU, Libvirt, Vagrant-Libvirt plugin 
     * Follow to install: https://github.com/vagrant-libvirt/vagrant-libvirt
     
-Steps
+### Steps
 1. Set up memory, cpu and storage in Vagrantfile
     * CPU can be more than available on the machine
 2. `vagrant up --provider libvirt`
